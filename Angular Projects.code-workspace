@@ -1,7 +1,10 @@
 {
-	"folders": [
-		{
-			"path": "guessthenumber"
-		}
-	]
+  "folders": [
+    {
+      "path": "guessthenumber"
+    },
+    {
+      "path": "trainer"
+    }
+  ]
 }
