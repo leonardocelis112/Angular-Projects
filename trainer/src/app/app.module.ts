@@ -1,20 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
 
-
-import { AppComponent } from './app.component';
-import { WorkoutRunnerModule } from './workout-runner/workout-runner.module';
-
+import { AppComponent } from "./app.component";
+import { WorkoutRunnerModule } from "./workout-runner/workout-runner.module";
+import { ExerciseDescriptionComponent } from "./workout-runner/exercise-description/exercise-description.component";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    WorkoutRunnerModule
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, WorkoutRunnerModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
