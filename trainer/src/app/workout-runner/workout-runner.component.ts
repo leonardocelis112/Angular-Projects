@@ -4,7 +4,7 @@ import { WorkoutPlan, ExercisePlan, Exercise } from "./model";
 @Component({
   selector: "abe-workout-runner",
   templateUrl: "./workout-runner.component.html",
-  styleUrls: ["./workout-runner.component.css"]
+  styleUrls: ["./workout-runner.component.css"],
 })
 export class WorkoutRunnerComponent implements OnInit {
   workoutPlan: WorkoutPlan;
@@ -90,7 +90,7 @@ export class WorkoutRunnerComponent implements OnInit {
           "A wall sit, also known as a Roman Chair, is an exercise done to strengthen the quadriceps muscles.",
           "wallsit.png",
           "wallsit.wav",
-          `Place your back against a wall with your feet shoulder width apart and a little ways out from the wall.
+          `Place your back against a wall with your feet shoulder width apart and a little ways out from the wall.<br/>
           Then, keeping your back against the wall, lower your hips until your knees form right angles.`,
           ["y-wV4Venusw", "MMV3v4ap4ro"]
         ),
@@ -114,7 +114,7 @@ export class WorkoutRunnerComponent implements OnInit {
             "ZWdBqFLNljc",
             "UwRLWMcOdwI",
             "ynPwl6qyUNM",
-            "OicNTT2xzMI"
+            "OicNTT2xzMI",
           ]
         ),
         30
