@@ -13,6 +13,8 @@ export class WorkoutRunnerComponent implements OnInit {
   currentExercise: ExercisePlan;
   restExercise: ExercisePlan;
   exerciseRunningDuration: number;
+  exerciseTrackingInterval: number;
+  workoutPaused: boolean;
 
   constructor() {}
 
@@ -24,6 +26,28 @@ export class WorkoutRunnerComponent implements OnInit {
     );
     this.start();
   }
+  pause() {
+    clearInterval(this.exerciseTrackingInterval);
+    this.workoutPaused = true;
+  }
+
+  resume() {
+    this.startExerciseTimeTracking();
+    this.workoutPaused = false;
+  }
+  onKeyPressed(event: KeyboardEvent) {
+    if (event.which === 80 || event.which === 112) {
+      this.pauseResumeToggle();
+    }
+  }
+
+  pauseResumeToggle() {
+    if (this.workoutPaused) {
+      this.resume();
+    } else {
+      this.pause();
+    }
+  }
 
   start() {
     this.workoutTimeRemaining = this.workoutPlan.totalWorkoutDuration();
@@ -34,9 +58,13 @@ export class WorkoutRunnerComponent implements OnInit {
   startExercise(exercisePlan: ExercisePlan): void {
     this.currentExercise = exercisePlan;
     this.exerciseRunningDuration = 0;
-    const intervalId = setInterval(() => {
+    this.startExerciseTimeTracking();
+  }
+
+  startExerciseTimeTracking() {
+    this.exerciseTrackingInterval = window.setInterval(() => {
       if (this.exerciseRunningDuration >= this.currentExercise.duration) {
-        clearInterval(intervalId);
+        clearInterval(this.exerciseTrackingInterval);
         const next: ExercisePlan = this.getNextExercise();
         if (next) {
           if (next !== this.restExercise) {
@@ -46,9 +74,10 @@ export class WorkoutRunnerComponent implements OnInit {
         } else {
           console.log("Workout complete");
         }
-      } else {
-        this.exerciseRunningDuration++;
+        return;
       }
+      ++this.exerciseRunningDuration;
+      --this.workoutTimeRemaining;
     }, 1000);
   }
 
