@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { WorkoutHistoryTrackerService } from './../core/workout-history-tracker.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { WorkoutPlan, ExercisePlan, Exercise } from './model';
 
@@ -7,7 +8,7 @@ import { WorkoutPlan, ExercisePlan, Exercise } from './model';
   templateUrl: './workout-runner.component.html',
   styleUrls: ['./workout-runner.component.css'],
 })
-export class WorkoutRunnerComponent implements OnInit {
+export class WorkoutRunnerComponent implements OnInit, OnDestroy {
   workoutPlan: WorkoutPlan;
   workoutTimeRemaining: number;
   currentExerciseIndex: number;
@@ -17,7 +18,14 @@ export class WorkoutRunnerComponent implements OnInit {
   exerciseTrackingInterval: number;
   workoutPaused: boolean;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private tracker: WorkoutHistoryTrackerService
+  ) {}
+
+  ngOnDestroy(): void {
+    this.tracker.endTracking(false);
+  }
 
   ngOnInit() {
     this.workoutPlan = this.buildWorkout();
@@ -51,6 +59,7 @@ export class WorkoutRunnerComponent implements OnInit {
   }
 
   start() {
+    this.tracker.startTracking();
     this.workoutTimeRemaining = this.workoutPlan.totalWorkoutDuration();
     this.currentExerciseIndex = 0;
     this.startExercise(this.workoutPlan.exercises[this.currentExerciseIndex]);
@@ -66,6 +75,11 @@ export class WorkoutRunnerComponent implements OnInit {
     this.exerciseTrackingInterval = window.setInterval(() => {
       if (this.exerciseRunningDuration >= this.currentExercise.duration) {
         clearInterval(this.exerciseTrackingInterval);
+        if (this.currentExercise !== this.restExercise) {
+          this.tracker.exerciseComplete(
+            this.workoutPlan.exercises[this.currentExerciseIndex]
+          );
+        }
         const next: ExercisePlan = this.getNextExercise();
         if (next) {
           if (next !== this.restExercise) {
@@ -73,6 +87,7 @@ export class WorkoutRunnerComponent implements OnInit {
           }
           this.startExercise(next);
         } else {
+          this.tracker.endTracking(true);
           this.router.navigate(['/finish']);
         }
         return;
