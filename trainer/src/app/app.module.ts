@@ -8,10 +8,11 @@ import { ExerciseDescriptionComponent } from './workout-runner/exercise-descript
 import { VideoPlayerComponent } from './workout-runner/exercise-description/video-player/video-player.component';
 import { StartComponent } from './start/start.component';
 import { FinishComponent } from './finish/finish.component';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [AppComponent, StartComponent, FinishComponent],
-  imports: [BrowserModule, WorkoutRunnerModule, AppRoutingModule],
+  imports: [BrowserModule, WorkoutRunnerModule, AppRoutingModule, CoreModule],
   providers: [],
   bootstrap: [AppComponent],
 })
