@@ -18,7 +18,7 @@ export class WorkoutLogEntry {
 export class WorkoutHistoryTrackerService {
   private maxHistoryItems = 20;
   private currentWorkoutLog: WorkoutLogEntry = null;
-  private workoutHistory: Array<WorkoutLogEntry>;
+  private workoutHistory: Array<WorkoutLogEntry> = [];
   private workoutTracked: boolean;
   constructor() {}
 
@@ -33,7 +33,7 @@ export class WorkoutHistoryTrackerService {
   startTracking() {
     this.workoutTracked = true;
     this.currentWorkoutLog = new WorkoutLogEntry(new Date());
-    if (this.workoutHistory.length >= this.maxHistoryItems) {
+    if (this.workoutHistory.length <= this.maxHistoryItems) {
       this.workoutHistory.push(this.currentWorkoutLog);
     }
   }

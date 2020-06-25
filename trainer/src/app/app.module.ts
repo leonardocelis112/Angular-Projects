@@ -9,9 +9,10 @@ import { VideoPlayerComponent } from './workout-runner/exercise-description/vide
 import { StartComponent } from './start/start.component';
 import { FinishComponent } from './finish/finish.component';
 import { CoreModule } from './core/core.module';
+import { WorkoutHistoryComponent } from './workout-history/workout-history.component';
 
 @NgModule({
-  declarations: [AppComponent, StartComponent, FinishComponent],
+  declarations: [AppComponent, StartComponent, FinishComponent, WorkoutHistoryComponent],
   imports: [BrowserModule, WorkoutRunnerModule, AppRoutingModule, CoreModule],
   providers: [],
   bootstrap: [AppComponent],

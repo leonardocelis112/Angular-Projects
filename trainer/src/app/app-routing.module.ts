@@ -3,11 +3,13 @@ import { StartComponent } from './start/start.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WorkoutRunnerComponent } from './workout-runner/workout-runner.component';
+import { WorkoutHistoryComponent } from './workout-history/workout-history.component';
 
 const routes: Routes = [
   { path: 'start', component: StartComponent },
   { path: 'workout', component: WorkoutRunnerComponent },
   { path: 'finish', component: FinishComponent },
+  { path: 'history', component: WorkoutHistoryComponent },
   { path: '**', redirectTo: 'start' },
 ];
 
