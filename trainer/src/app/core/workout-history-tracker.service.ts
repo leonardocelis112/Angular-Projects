@@ -1,3 +1,4 @@
+import { LocalStorageService } from './local-storage.service';
 import { ExercisePlan } from './../workout-runner/model';
 import { CoreModule } from './core.module';
 import { Injectable } from '@angular/core';
@@ -20,7 +21,18 @@ export class WorkoutHistoryTrackerService {
   private currentWorkoutLog: WorkoutLogEntry = null;
   private workoutHistory: Array<WorkoutLogEntry> = [];
   private workoutTracked: boolean;
-  constructor() {}
+  private storageKey = 'workouts';
+
+  constructor(private storage: LocalStorageService) {
+    this.workoutHistory = (
+      storage.getItem<Array<WorkoutLogEntry>>(this.storageKey) || []
+    ).map((item: WorkoutLogEntry) => {
+      item.startedOn = new Date(item.startedOn.toString());
+      item.endedOn =
+        item.endedOn == null ? null : new Date(item.endedOn.toString());
+      return item;
+    });
+  }
 
   getTracking(): boolean {
     return this.workoutTracked;
@@ -36,11 +48,13 @@ export class WorkoutHistoryTrackerService {
     if (this.workoutHistory.length <= this.maxHistoryItems) {
       this.workoutHistory.push(this.currentWorkoutLog);
     }
+    this.storage.setItem(this.storageKey, this.workoutHistory);
   }
 
   exerciseComplete(exercise: ExercisePlan) {
     this.currentWorkoutLog.lastExercise = exercise.exercise.title;
     ++this.currentWorkoutLog.exercisesDone;
+    this.storage.setItem(this.storageKey, this.workoutHistory);
   }
 
   endTracking(completed: boolean) {
@@ -48,5 +62,6 @@ export class WorkoutHistoryTrackerService {
     this.currentWorkoutLog.endedOn = new Date();
     this.currentWorkoutLog = null;
     this.workoutTracked = false;
+    this.storage.setItem(this.storageKey, this.workoutHistory);
   }
 }
