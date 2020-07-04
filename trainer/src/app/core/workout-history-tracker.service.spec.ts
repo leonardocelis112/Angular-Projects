@@ -1,12 +1,15 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
 import { WorkoutHistoryTrackerService } from './workout-history-tracker.service';
 
 describe('WorkoutHistoryTrackerService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
-
-  it('should be created', () => {
-    const service: WorkoutHistoryTrackerService = TestBed.get(WorkoutHistoryTrackerService);
-    expect(service).toBeTruthy();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [WorkoutHistoryTrackerService]
+    });
   });
+
+  it('should be created', inject([WorkoutHistoryTrackerService], (service: WorkoutHistoryTrackerService) => {
+    expect(service).toBeTruthy();
+  }));
 });

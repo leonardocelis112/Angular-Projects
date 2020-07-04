@@ -4,7 +4,7 @@
 @import "~ionicons/dist/css/ionicons.min.css";
 body {
   font-size: 13px;
-  font-family: "Roboto Slab";
+  font-family: 'Roboto Slab';
   font-style: normal;
   font-weight: 400;
 }
@@ -12,7 +12,30 @@ body {
 .image-container {
   margin: 25px auto;
   width: 540px;
+  height: 360px;
   cursor: pointer;
+}
+
+.video-image {
+  height: 165px;
+}
+
+.fade.in {
+  opacity: 1;
+}
+
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+.modal-backdrop .fade .in {
+  opacity: 0.5 !important;
+}
+
+.modal-backdrop.fade {
+  opacity: 0.5 !important;
 }
 
 #pause-overlay {
@@ -25,7 +48,7 @@ body {
 }
 
 #pause-overlay:hover {
-  opacity: 0.8;
+  opacity: .8;
 }
 
 #pause-overlay .pause {
