@@ -1,9 +1,7 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { Modal } from 'ngx-modialog/plugins/bootstrap';
-import {
-  VideoDialogComponent,
-  VideoDialogContext,
-} from './video-dialog/video-dialog.component';
+import { VideoDialogComponent, VideoDialogContext } from './video-dialog/video-dialog.component';
 import { overlayConfigFactory } from 'ngx-modialog';
 
 @Component({
@@ -11,17 +9,21 @@ import { overlayConfigFactory } from 'ngx-modialog';
   templateUrl: './video-player.component.html',
   styles: [],
 })
-export class VideoPlayerComponent implements OnInit {
+export class VideoPlayerComponent implements OnInit{
+
   @Input() videos: Array<string>;
+  @Output() playbackStarted: EventEmitter<any> = new EventEmitter<any>();
+  @Output() playbackEnded: EventEmitter<any> = new EventEmitter<any>();
+  
+  constructor(private modal: Modal) { }
 
-  constructor(private modal: Modal) {}
-
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   playVideo(videoId: string) {
-    this.modal.open(
-      VideoDialogComponent,
-      overlayConfigFactory(new VideoDialogContext(videoId))
-    );
-  }
+    this.playbackStarted.emit(null);
+    var dialog = this.modal.open(VideoDialogComponent, overlayConfigFactory(new VideoDialogContext(videoId)));
+    dialog.result
+      .then(() => { this.playbackEnded.emit(null); }, (error) => { this.playbackEnded.emit(null); });
+  };
 }
